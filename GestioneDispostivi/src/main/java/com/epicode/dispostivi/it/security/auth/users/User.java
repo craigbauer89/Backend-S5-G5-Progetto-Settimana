@@ -1,6 +1,7 @@
 package com.epicode.dispostivi.it.security.auth.users;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -12,10 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.epicode.dispostivi.entity.Dispositivi;
 import com.epicode.dispostivi.it.security.auth.roles.Role;
 
 import lombok.AllArgsConstructor;
@@ -30,6 +33,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class User {
+	
+	private String nome;
+	private String  cognome;
+	private String email;
+	@OneToMany 
+	private List<Dispositivi>  dispositivi;
 
 
 	@Id
