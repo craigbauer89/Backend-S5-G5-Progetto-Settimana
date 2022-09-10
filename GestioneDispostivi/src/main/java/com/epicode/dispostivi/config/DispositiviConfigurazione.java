@@ -7,6 +7,7 @@ import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 
 import com.epicode.dispostivi.entity.Dispositivi;
 import com.epicode.dispostivi.entity.Laptop;
@@ -16,12 +17,18 @@ import com.epicode.dispostivi.entity.TipoStato;
 import com.epicode.dispostivi.it.security.auth.users.User;
 import com.epicode.dispostivi.repository.DispositiviRepository;
 import com.epicode.dispostivi.repository.UtenteRepository;
+import com.epicode.dispostivi.services.DispositiviService;
+
+
 
 
 
 
 @Configuration
 public class DispositiviConfigurazione {
+	
+//	@Autowired
+//	private DispositiviService  dispositiviServiceImp;
 
 	@Autowired
 	private UtenteRepository repoUtente;
@@ -31,25 +38,73 @@ public class DispositiviConfigurazione {
 	
 	
 	@Autowired
-	ObjectProvider<Dispositivi> prenotazioniProvider;
+	ObjectProvider<Tablet> tabletProvider;
+	
+	@Autowired
+	ObjectProvider<SmartPhone> smartPhoneProvider;
+	
+	@Autowired
+	ObjectProvider<Laptop> laptopProvider;
+	
+	@Bean("laptop")
+	@Scope("prototype")
+	public Laptop nuovaLaptop() {
+		
+		return new Laptop();
+		
+	}
+	@Bean("smartphone")
+	@Scope("prototype")
+public SmartPhone nuovaSmartPhone() {
+		
+		return new SmartPhone();
+		
+	}
+	@Bean("tablet")
+	@Scope("prototype")
+public Tablet nuovaTablet() {
+	
+	return new Tablet();
+	
+}
+	
+	
+//	
+//	@Bean("dispositiviSmartPhone")
+//	@Scope("prototype")
+//	public SmartPhone nuovaSmartPhone() {
+//		return new SmartPhone();
+//	}
+//	
+//	@Bean("dispositiviLaptop")
+//	@Scope("prototype")
+//	public Laptop nuovaLaptop() {
+//		return new Laptop();
+//	}
+//	
+//	@Bean("dispositiviTablet")
+//	@Scope("prototype")
+//	public Tablet nuovaTablet() {
+//		return new Tablet();
+//	}
 	
 	@Bean("dispositivi")
 	public User utente1Dispositivi() {
 		
 	
-		Laptop dispositivo1 = (Laptop) prenotazioniProvider.getObject();
+		Laptop dispositivo1 = laptopProvider.getObject();
 		dispositivo1.setSchermo(12);
 		dispositivo1.setTipoStato(TipoStato.DISPONSIBILE);
 		dispositivo1.setMarca("Apple");
 		dispositivo1.setOperatingSystem("IOS");
 		repoDispositivi.save(dispositivo1);
 		
-		Tablet dispositivo2 = (Tablet) prenotazioniProvider.getObject();
+		Tablet dispositivo2 = tabletProvider.getObject();
 		dispositivo2.setSchermo(14);
 		dispositivo2.setTipoStato(TipoStato.ASSENGATO);
 		dispositivo2.setMarca("Apple");
 		dispositivo2.setWithKeyboard(true);
-		repoDispositivi.save(dispositivo1);
+		repoDispositivi.save(dispositivo2);
 		
 List<Dispositivi> dispositivi = new ArrayList<Dispositivi>();
 		
@@ -75,26 +130,26 @@ List<Dispositivi> dispositivi = new ArrayList<Dispositivi>();
 	public User utente2Dispositivi() {
 		
 	
-		Laptop dispositivo1 = (Laptop) prenotazioniProvider.getObject();
+		Laptop dispositivo1 = (Laptop) laptopProvider.getObject();
 		dispositivo1.setSchermo(12);
 		dispositivo1.setTipoStato(TipoStato.DISPONSIBILE);
 		dispositivo1.setMarca("Apple");
 		dispositivo1.setOperatingSystem("IOS");
 		repoDispositivi.save(dispositivo1);
 		
-		Tablet dispositivo2 = (Tablet) prenotazioniProvider.getObject();
+		Tablet dispositivo2 = (Tablet) tabletProvider.getObject();
 		dispositivo2.setSchermo(14);
 		dispositivo2.setTipoStato(TipoStato.ASSENGATO);
 		dispositivo2.setMarca("Apple");
 		dispositivo2.setWithKeyboard(true);
-		repoDispositivi.save(dispositivo1);
+		repoDispositivi.save(dispositivo2);
 		
-		SmartPhone dispositivo3 = (SmartPhone) prenotazioniProvider.getObject();
+		SmartPhone dispositivo3 = (SmartPhone) smartPhoneProvider.getObject();
 		dispositivo3.setSchermo(12);
 		dispositivo3.setTipoStato(TipoStato.IN_MANUTENZIONE);
 		dispositivo3.setMarca("Samsung");
 		dispositivo3.setNummero("086666854721");
-		repoDispositivi.save(dispositivo1);
+		repoDispositivi.save(dispositivo3);
 		
 List<Dispositivi> dispositivi = new ArrayList<Dispositivi>();
 		
@@ -121,11 +176,11 @@ List<Dispositivi> dispositivi = new ArrayList<Dispositivi>();
 	public User utente3Dispositivi() {
 		
 	
-		SmartPhone dispositivo1 = (SmartPhone) prenotazioniProvider.getObject();
+		SmartPhone dispositivo1 = (SmartPhone) smartPhoneProvider.getObject();
 		dispositivo1.setSchermo(12);
 		dispositivo1.setTipoStato(TipoStato.IN_MANUTENZIONE);
 		dispositivo1.setMarca("Apple");
-		dispositivo1.setNummero(")8765678721");
+		dispositivo1.setNummero("08765678721");
 		repoDispositivi.save(dispositivo1);
 		
 		
@@ -149,4 +204,10 @@ List<Dispositivi> dispositivi = new ArrayList<Dispositivi>();
 	return utente;
 		
 	}
+	
+	
+//	@Bean("dispositiviServiceImp")
+//	public DispositiviService dispositivi() {
+//		return dispositiviServiceImp;
+//	}
 }

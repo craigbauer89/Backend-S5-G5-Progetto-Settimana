@@ -1,6 +1,6 @@
 package com.epicode.dispostivi.entity;
 
-import java.util.Set;
+
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

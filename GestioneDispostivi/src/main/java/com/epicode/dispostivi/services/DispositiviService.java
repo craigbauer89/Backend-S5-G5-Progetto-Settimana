@@ -1,17 +1,47 @@
 package com.epicode.dispostivi.services;
 
+import java.util.List;
+
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
+import com.epicode.dispostivi.entity.Dispositivi;
+import com.epicode.dispostivi.entity.Laptop;
+import com.epicode.dispostivi.entity.SmartPhone;
+import com.epicode.dispostivi.entity.Tablet;
 import com.epicode.dispostivi.it.security.auth.users.User;
+import com.epicode.dispostivi.repository.DispositiviRepository;
+import com.epicode.dispostivi.repository.UtenteRepository;
+
 
 import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
 public class DispositiviService {
-
+	
+	@Autowired
+	DispositiviRepository dispositiviRepository;
+	
+	@Autowired
+	UtenteRepository utenteRepository;
+	
+	@Autowired
+	@Qualifier("smartphone")
+	private SmartPhone smartphone;
+	
+	@Autowired
+	@Qualifier("laptop")
+	private Laptop laptop;
+	
+	@Autowired
+	@Qualifier("tablet")
+	private Tablet tablet;
+	
+	
 	@Autowired
 	@Qualifier("dispositivi")
 	private User dispositivi;
@@ -37,25 +67,51 @@ public class DispositiviService {
 		return dispositivi3;
 	}
 	
-	public void stampaVideoPrenotazioni() {
+//	@Autowired
+//	@Qualifier("dispositiviSmartPhone")
+//	private SmartPhone dispositiviSmartPhone;
+//	
+//	@Autowired
+//	@Qualifier("dispositiviTablet")
+//	private Tablet dispositiviTablet;
+//	
+//	@Autowired
+//	@Qualifier("dispositiviLaptop")
+//	private Laptop dispositiviLaptop;
+	
+	
+
+	public User trovaperId(Long id) {
+//		if(!libroRepository.existsById(id)) {
+//			throw new EntityNotFoundException("Libro non trovato");
+//		}
+		return utenteRepository.findById(id).get();
+	}
+	
+
+
+	
+	public void stampaVideoDispositivi() {
 		User utente1dispositivi = creaDispositivi();
-		log.info("-----Prenotazioni delle Utente 1-----------");
-		log.info("Prenotazioni *" +utente1dispositivi.toString());
+		log.info("-----Dispositivi delle Utente 1-----------");
+		log.info("Dispositivi *" +utente1dispositivi.toString());
 		
 		log.info("-------------------------------");
 		
 		
 		User utente2dispositivi  = creaDispositivi2();
-		log.info("-----Prenotazioni delle Utente 2-----------");
-		log.info("Prenotazioni *" +utente2dispositivi.toString());
+		log.info("-----Dispositivi delle Utente 2-----------");
+		log.info("Dispositivi *" +utente2dispositivi.toString());
 		
 		log.info("-------------------------------");
 		
 		User utente3dispositivi = creaDispositivi3();
-		log.info("-----Prenotazioni delle Utente 2-----------");
-		log.info("Prenotazioni *" +utente3dispositivi.toString());
+		log.info("-----Dispositivi delle Utente 2-----------");
+		log.info("Dispositivi *" +utente3dispositivi.toString());
 		
 		log.info("-------------------------------");
 	}
+	
+
 
 }

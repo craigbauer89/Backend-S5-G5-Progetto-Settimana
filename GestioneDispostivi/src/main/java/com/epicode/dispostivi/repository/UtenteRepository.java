@@ -17,6 +17,8 @@ import com.epicode.dispostivi.it.security.auth.users.User;
 @Repository
 public interface UtenteRepository extends JpaRepository<User, Long> {
 
+	
+
 
 
 }
