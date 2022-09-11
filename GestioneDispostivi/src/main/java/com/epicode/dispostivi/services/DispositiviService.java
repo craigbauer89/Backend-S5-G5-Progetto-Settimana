@@ -1,14 +1,16 @@
 package com.epicode.dispostivi.services;
 
-import java.util.List;
 
+
+import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import com.epicode.dispostivi.entity.Dispositivi;
+import com.epicode.dispostivi.dto.Userdto;
 import com.epicode.dispostivi.entity.Laptop;
 import com.epicode.dispostivi.entity.SmartPhone;
 import com.epicode.dispostivi.entity.Tablet;
@@ -67,28 +69,47 @@ public class DispositiviService {
 		return dispositivi3;
 	}
 	
-//	@Autowired
-//	@Qualifier("dispositiviSmartPhone")
-//	private SmartPhone dispositiviSmartPhone;
-//	
-//	@Autowired
-//	@Qualifier("dispositiviTablet")
-//	private Tablet dispositiviTablet;
-//	
-//	@Autowired
-//	@Qualifier("dispositiviLaptop")
-//	private Laptop dispositiviLaptop;
-	
-	
+	public void modifica(Long id,Userdto dto) {
+		
+		if (!utenteRepository.existsById(id)) {
+			throw new EntityNotFoundException("Utente non trovato");
+		}
+		
+		User l = utenteRepository.findById(id).get();
+		BeanUtils.copyProperties(dto, l);
+		
+		utenteRepository.save(l);
+		
+		
+		
+	}
 
 	public User trovaperId(Long id) {
-//		if(!libroRepository.existsById(id)) {
-//			throw new EntityNotFoundException("Libro non trovato");
-//		}
+		if(!utenteRepository.existsById(id)) {
+			throw new EntityNotFoundException("Utente non trovato");
+		}
 		return utenteRepository.findById(id).get();
 	}
 	
-
+	public User crea(Userdto dto) {
+		
+		if (utenteRepository.existsByNome(dto.getNome())) {
+			throw new EntityExistsException("Utente gia esistente");
+		}
+		User u = new User();
+		BeanUtils.copyProperties(dto, u);
+		utenteRepository.save(u);
+		return u;
+		
+	}
+	
+	public void cancella(Long id) {
+		if(!utenteRepository.existsById(id)) {
+			throw new EntityNotFoundException("Utente non trovato");
+		}
+		utenteRepository.deleteById(id);
+		
+	}
 
 	
 	public void stampaVideoDispositivi() {
